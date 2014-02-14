@@ -1,7 +1,7 @@
 /*
 
 Programutvikling vår 2014
-Obligatorsik Oppgave
+Obligatorisk Oppgave
 Oppgave 1a: Bil-register
 
 Gruppemedlemer:
