@@ -1,7 +1,7 @@
 /*
 
 Programutvikling vår 2014
-Obligatorsik Oppgave
+Obligatorisk Oppgave
 Oppgave 1b: Bil-register
 
 Gruppemedlemer:
@@ -18,11 +18,13 @@ Sigurd Hølleland	(s198597)
 	 {
 		 første = null;
 	 }
+
 	 public void settInnBileier(Bileier ny)
 	 {
 		 ny.neste = første;
 		 første = ny;
 	 }
+
 	 public Bileier finnBileier(long id)
 	 {
 		 // Listen er tom
@@ -39,17 +41,34 @@ Sigurd Hølleland	(s198597)
 		 }
 		 return null;
 	 }
+
      public String fjernEier(long id)
      {
 		 if(første == null)
 		   return "Listen er tom";
-		 Bileier slettes = finnBileier(id);
+
+		 // Sjekker at eieren ikke har registrert noen biler
+		 Bileier eier = finnBileier(id);
+		 if(eier.getBilliste().tomListe())
+		   return "Bileier " + id + " har fortsatt biler registrert, kan ikke fjernes!";
+
 		 if(første.getId() == id)
 		 {
 		   første = første.neste;
 		   return "Eier " + id + "ble fjernet.";
-
+	     }
+	     Bileier løper = første;
+	     while (løper.neste != null)
+	     {
+			 if(løper.neste.getId() == id)
+			 {
+			   løper.neste = løper.neste.neste;
+			   return "Eier " + id + " ble fjernet";
+		     }
+		 }
+		 return "Eier " + id + " ble ikke fjernet";
 	 }
+
 	 public String toString()
 	 {
 		 return null;
