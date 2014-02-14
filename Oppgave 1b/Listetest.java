@@ -2,7 +2,7 @@
 
 Programutvikling vår 2014
 Obligatorsik Oppgave
-Oppgave 1: Bil-register
+Oppgave 1b: Bil-register
 
 Gruppemedlemer:
 Eivind Schulstad	(s198752)
