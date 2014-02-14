@@ -241,7 +241,7 @@ public class Listevindu extends JFrame
 
     String f = fjernFelt.getText();
 
-    output.setText( bileierliste.fjernBil(f) );
+		output.setText( bileierliste.finnBileier(f).fjernBil(f) );
 
 		fjernFelt.setText( "" );
   }	// end of metode fjernBil()
