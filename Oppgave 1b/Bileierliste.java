@@ -24,7 +24,6 @@ Sigurd Hølleland	(s198597)
 		 ny.neste = første;
 		 første = ny;
 	 }
-
 	 public Bileier finnBileier(long id)
 	 {
 		 // Listen er tom
@@ -67,6 +66,19 @@ Sigurd Hølleland	(s198597)
 		     }
 		 }
 		 return "Eier " + id + " ble ikke fjernet";
+	 }
+
+	 public Bileier finnBileier(String r)
+	 {
+		 Bileier løper = første;
+		 while(løper != null)
+		 {
+			 if( løper.finnBil(r) != null)
+			   return løper;
+
+			 løper = løper.neste;
+		 }
+		 return null;
 	 }
 
 	 public String toString()

@@ -35,6 +35,12 @@ Sigurd Hølleland	(s198597)
 		   return "Bil med registreringsnummer " + rn + " ble fjernet.";
 		 return "Ingen bil ble fjernet";
 	 }
+	 public Bil finnBil(String r)
+	 {
+		 if (billiste.finn(r) == null)
+		   return null;
+		 return billiste.finn(r);
+	 }
 	 public Billiste getBilliste()
 	 {
 		 return billiste;
