@@ -119,7 +119,7 @@ public class Listevindu extends JFrame
     output.setEditable( false );
     c.add( new JScrollPane( output ) );
 
-    billiste = new Billiste();
+    bileierliste = new Bileierliste();
 
     setSize( 850, 400 );
     setVisible( true );
@@ -146,13 +146,13 @@ public class Listevindu extends JFrame
 
 		Bil b = new Bil( r, m, t, ar );
 
-    if( bileierliste.finnPerson( pnr ) == null )
+    if( bileierliste.finnBileier( pnr ) == null )
 		{
 			output.setText( "Finner ikke personnummer " + pnr );
 			return;
 		}
 
-		bileierliste.finnPerson( pnr ).regBil( b );
+		bileierliste.finnBileier( pnr ).regBil( b );
 
     output.setText( "Bil med reg.nr. " + r + " registrert på personnummer " + pnr );
 
@@ -184,13 +184,13 @@ public class Listevindu extends JFrame
 
 		Bil b = new Bil( r, m, t, ar );
 
-    if( bileierliste.finnFirma( fnr ) == null )
+    if( bileierliste.finnBileier( fnr ) == null )
 		{
 			output.setText( "Finner ikke foretaksnummer " + fnr );
 			return;
 		}
 
-		bileierliste.finnFirma( fnr ).regBil( b );
+		bileierliste.finnBileier( fnr ).regBil( b );
 
     output.setText( "Bil med reg.nr. " + r + " registrert på foretaksnummer " + fnr );
 
@@ -205,7 +205,7 @@ public class Listevindu extends JFrame
 
 
 
-  public void finnBil()
+  public void finnBileierInfo()
   {
 		if( finnFelt.getText().equals("") )
 		{
@@ -216,7 +216,8 @@ public class Listevindu extends JFrame
 
     String f = finnFelt.getText();
 
-    Bil b = billiste.finn( f );
+
+    Bileier b = bileierliste.finnBileier( f );
 
 		if( b == null )
 			output.setText( "Finner ikke bil med reg.nr. " + f);
@@ -225,6 +226,7 @@ public class Listevindu extends JFrame
 
     finnFelt.setText( "" );
   }	// end of metode finnBil()
+
 
 
 
@@ -239,10 +241,7 @@ public class Listevindu extends JFrame
 
     String f = fjernFelt.getText();
 
-    if( billiste.fjern(f) )
-    	output.setText( "Bil med reg.nr. " + f + " fjernet" );
-    else
-    	output.setText( "Bil med reg.nr. " + f + " finnes ikke" );
+    output.setText( bileierliste.fjernBil(f) );
 
 		fjernFelt.setText( "" );
   }	// end of metode fjernBil()
@@ -270,10 +269,10 @@ public class Listevindu extends JFrame
 
 	public void skrivListe()
 	{
-		String utskrift = billiste.listeInfo();
+		String utskrift = bileierliste.toString();
 
 		if( utskrift == null )
-			output.setText( "Ingen bil registrert" );
+			output.setText( "Ingen bileier registrert" );
 		else
 			output.setText( utskrift );
 
@@ -342,7 +341,7 @@ public class Listevindu extends JFrame
 				}
 				else if ( e.getSource() == finnBil || e.getSource() == finnFelt )
 				{
-					finnBil();
+					finnBileierInfo();
 				}
 				else if ( e.getSource() == fjernBil || e.getSource() == fjernFelt )
 				{
@@ -358,11 +357,11 @@ public class Listevindu extends JFrame
 				}
 				else if( e.getSource() == regPerson )
 				{
-					regPerson();
+					nyPerson();
 				}
 				else if( e.getSource() == regFirma )
 				{
-					regFirma();
+					nyFirma();
 				}
 			}
 			catch( NumberFormatException nfe )
