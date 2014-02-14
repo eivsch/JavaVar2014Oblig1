@@ -13,11 +13,11 @@ Sigurd Hølleland	(s198597)
 
 public class Bil
 {
-	private int regNr, regAr;
-	private String merke, type;
-	private Bil neste;
+	private int regAr;
+	private String regNr, merke, type;
+	Bil neste;
 
-	public Bil( int nr, String m, String t, int ar )
+	public Bil( String nr, String m, String t, int ar )
 	{
 		regNr = nr;
 		merke = m;
@@ -28,7 +28,7 @@ public class Bil
 
 
 
-	public int getRegNr()
+	public String getRegNr()
 	{
 		return regNr;
 	}	// end of metode getRegNr()
@@ -40,7 +40,7 @@ public class Bil
 		return "Regnr: " + regNr +
 					 "\nMerke: " + merke +
 					 "\nType: " + type +
-					 "\nÅrstall: " + regAr + "\n";
+					 "\nÅrstall: " + regAr + "\n\n";
 	}	// end of metode toString()
 
 

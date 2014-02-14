@@ -26,38 +26,97 @@ public class Billiste
 
 	public void settInnNy( Bil ny )
 	{
-
-
+    ny.neste = første;
+    første = ny;
 	}	// end of metode settInnNy()
 
 
 
-	public Bil finn( int r )
+	public Bil finn( String r )
 	{
+		if( første == null )
+			return null;
 
+		Bil løper = første;
 
+		while( løper != null )
+		{
+			if( løper.getRegNr().equals(r) )
+				return løper;
+
+			if( løper == null )
+				return null;
+
+		  løper = løper.neste;
+	 	}
+		return null;
 	}	// end of metode finn()
 
 
 
-	public boolean fjern( int r )
+	public boolean fjern( String r )
 	{
+		if ( tomListe() ) //tom liste
+		{
+			System.out.println("1");
+			return false;
+		}
 
+		//hvis vi skal fjerne den første
+    if (første.getRegNr().equals(r) ){
+			System.out.println("2");
+			første = første.neste;
+			return true;
+		}
 
+   	Bil løper = første;
+
+		while( løper.neste != null )
+		{
+			System.out.println("3");
+			if( løper.neste.getRegNr().equals(r) )
+			{
+				System.out.println("4");
+				løper.neste = løper.neste.neste;
+				return true;
+			}
+			System.out.println("5");
+			løper = løper.neste;
+		}
+System.out.println("6");
+		return false;
 	}	// end of metode fjern()
 
 
 
 	public boolean tomListe()
 	{
-
-
+		if (første == null)
+			return true;
+		else
+			return false;
 	}	// end of metode tomListe()
 
 
 
 	public String listeInfo()
 	{
+		String utskrift = "";
+
+		if ( tomListe() )
+			return "Tom liste";
+		else
+		{
+			Bil løper = første;
+			while ( løper != null)
+			{
+			 utskrift += løper.toString();
+			 løper = løper.neste;
+			}
+			utskrift += "\n\n";
+
+			return utskrift;
+		}
 
 
 	}	// end of metode listeInfo()

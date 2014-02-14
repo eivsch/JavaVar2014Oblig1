@@ -73,14 +73,14 @@ public class Listevindu extends JFrame
     skrivInfo.addActionListener( lytter );
     c.add( skrivInfo );
 
-    c.add( new JLabel( "Liste:" ) );
-    output = new JTextArea( 10, 45 );
+
+    output = new JTextArea( 15, 60 );
     output.setEditable( false );
     c.add( new JScrollPane( output ) );
 
     billiste = new Billiste();
 
-    setSize( 550, 400 );
+    setSize( 850, 400 );
     setVisible( true );
   }	// end of konstruktør
 
@@ -96,7 +96,7 @@ public class Listevindu extends JFrame
 			return;
 		}
 
-    int r = Integer.parseInt( regNrFelt.getText() );
+    String r = regNrFelt.getText();
     String m = merkeFelt.getText();
     String t = typeFelt.getText();
     int a = Integer.parseInt( arFelt.getText() );
@@ -112,47 +112,51 @@ public class Listevindu extends JFrame
 
   public void finnBil()
   {
-		if( finnFelt.getText() == null )
+		if( finnFelt.getText().equals("") )
 		{
 			JOptionPane.showMessageDialog( null, "Du må fylle skrive reg.nr.",
 																		 "Feil", JOptionPane.ERROR_MESSAGE );
 			return;
 		}
 
-    int f = Integer.parseInt( finnFelt.getText() );
+    String f = finnFelt.getText();
 
     Bil b = billiste.finn( f );
-    finnFelt.setText( "" );
 
-    output.setText( b.toString() );
+		if( b == null )
+			output.setText( "Finner ikke bil med reg.nr. " + f);
+		else
+    	output.setText( b.toString() );
+
+    finnFelt.setText( "" );
   }	// end of metode finnBil()
 
 
 
   public void fjernBil()
   {
-		if( fjernFelt.getText() == null )
+		if( fjernFelt.getText().equals("") )
 		{
 			JOptionPane.showMessageDialog( null, "Du må fylle skrive reg.nr.",
 																		 "Feil", JOptionPane.ERROR_MESSAGE );
 			return;
 		}
 
-		fjernFelt.setText( "" );
-
-    int f = Integer.parseInt( fjernFelt.getText() );
+    String f = fjernFelt.getText();
 
     if( billiste.fjern(f) )
     	output.setText( "Bil med reg.nr. " + f + " fjernet" );
     else
     	output.setText( "Bil med reg.nr. " + f + " finnes ikke" );
+
+		fjernFelt.setText( "" );
   }	// end of metode fjernBil()
 
 
 
 	public void skrivListe()
 	{
-		utskrift = billiste.listeInfo();
+		String utskrift = billiste.listeInfo();
 
 		if( utskrift == null )
 			output.setText( "Ingen bil registrert" );
@@ -169,6 +173,10 @@ public class Listevindu extends JFrame
       if ( e.getSource() == settInn )
       {
         settInnNy();
+        regNrFelt.setText( "" );
+        merkeFelt.setText( "" );
+        typeFelt.setText( "" );
+        arFelt.setText( "" );
       }
       else if ( e.getSource() == finnBil || e.getSource() == finnFelt )
       {
@@ -176,11 +184,11 @@ public class Listevindu extends JFrame
       }
       else if ( e.getSource() == fjernBil || e.getSource() == fjernFelt )
       {
-
+				fjernBil();
       }
       else if ( e.getSource() == skrivInfo )
       {
-
+				skrivListe();
       }
     }	// end of metode actionPerformed()
   }	// end of inner class Lytter
