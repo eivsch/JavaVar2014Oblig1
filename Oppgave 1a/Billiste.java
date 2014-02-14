@@ -44,8 +44,8 @@ public class Billiste
 			if( løper.getRegNr().equals(r) )
 				return løper;
 
-			if( løper == null )
-				return null;
+			//if( løper == null )
+			//	return null;
 
 		  løper = løper.neste;
 	 	}
