@@ -49,7 +49,7 @@ Sigurd Hølleland	(s198597)
 
 		 // Sjekker at eieren ikke har registrert noen biler
 		 Bileier eier = finnBileier(id);
-		 if(eier.getBilliste().tomListe())
+		 if(!eier.getBilliste().tomListe())
 		   return "Bileier " + id + " har fortsatt biler registrert, kan ikke fjernes!";
 
 		 if(første.getId() == id)
