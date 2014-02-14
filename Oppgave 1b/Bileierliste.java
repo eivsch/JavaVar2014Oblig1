@@ -24,6 +24,7 @@ Sigurd Hølleland	(s198597)
 		 ny.neste = første;
 		 første = ny;
 	 }
+
 	 public Bileier finnBileier(long id)
 	 {
 		 // Listen er tom
@@ -39,6 +40,22 @@ Sigurd Hølleland	(s198597)
 			 løper = løper.neste;
 		 }
 		 return null;
+	 }
+
+	 public Bileier finnBileier(String r)
+	 {
+		 if (første == null)
+		   return null;
+
+		 Bileier løper = første;
+	     while(løper != null)
+	 	 {
+	 		 if( løper.finnBil(r) != null)
+	 		   return løper;
+
+	 		 løper = løper.neste;
+	 	 }
+	 	 return null;
 	 }
 
      public String fjernEier(long id)
@@ -67,22 +84,23 @@ Sigurd Hølleland	(s198597)
 		 }
 		 return "Eier " + id + " ble ikke fjernet";
 	 }
-
-	 public Bileier finnBileier(String r)
+	 public void eierskifte(String rn, long idGammel, long idNy)
 	 {
-		 Bileier løper = første;
-		 while(løper != null)
-		 {
-			 if( løper.finnBil(r) != null)
-			   return løper;
-
-			 løper = løper.neste;
-		 }
-		 return null;
+		 Bileier gammel = finnBileier(idGammel);
+		 Bileier ny = finnBileier(idNy);
+		 Bil b = gammel.finnBil(rn);
+		 gammel.fjernBil(rn);
+		 ny.regBil(b);
 	 }
 
 	 public String toString()
 	 {
-		 return null;
+		 Bileier løper = første;
+		 String s = "";
+		 while (løper != null)
+		 {
+			 s += løper.toString();
+		 }
+		 return s;
 	 }
  }

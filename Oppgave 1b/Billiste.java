@@ -94,7 +94,7 @@ System.out.println("6");
 
 
 
-	public String listeInfo()
+	public String toString()
 	{
 		String utskrift = "";
 
