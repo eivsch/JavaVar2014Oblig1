@@ -156,7 +156,7 @@ public class Listevindu extends JFrame
 
 	public void skrivListe()
 	{
-		String utskrift = billiste.listeInfo();
+		String utskrift = billiste.toString();
 
 		if( utskrift == null )
 			output.setText( "Ingen bil registrert" );

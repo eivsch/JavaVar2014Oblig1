@@ -58,11 +58,13 @@ public class Billiste
 	{
 		if ( tomListe() ) //tom liste
 		{
+			System.out.println("1");
 			return false;
 		}
 
 		//hvis vi skal fjerne den første
     if (første.getRegNr().equals(r) ){
+			System.out.println("2");
 			første = første.neste;
 			return true;
 		}
@@ -71,13 +73,17 @@ public class Billiste
 
 		while( løper.neste != null )
 		{
+			System.out.println("3");
 			if( løper.neste.getRegNr().equals(r) )
 			{
+				System.out.println("4");
 				løper.neste = løper.neste.neste;
 				return true;
 			}
+			System.out.println("5");
 			løper = løper.neste;
 		}
+System.out.println("6");
 		return false;
 	}	// end of metode fjern()
 
@@ -93,7 +99,7 @@ public class Billiste
 
 
 
-	public String listeInfo()
+	public String toString()
 	{
 		String utskrift = "";
 
@@ -113,7 +119,7 @@ public class Billiste
 		}
 
 
-	}	// end of metode listeInfo()
+	}	// end of metode toString()
 
 
 }	// end of class Billiste
