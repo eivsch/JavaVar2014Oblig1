@@ -5,14 +5,13 @@
  */
  public class Bileierliste
  {
-	 private Bileier;
+	 private Bileier første;
 
 	 public Bileierliste()
 	 {
-		 Bileier = null;
+		 første = null;
 	 }
 	 public void settInn(Bileier ny)
 	 {
-
 	 }
  }

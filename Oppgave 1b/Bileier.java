@@ -6,7 +6,7 @@
  public abstract class Bileier
  {
 	 private String navn, adresse;
-	 Billiste biler;
+	 private Billiste biler;
 	 Bileier neste;
 
 	 public Bileier (String navn, String adresse, Billiste biler)
