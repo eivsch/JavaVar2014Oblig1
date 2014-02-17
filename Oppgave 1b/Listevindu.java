@@ -275,7 +275,7 @@ public class Listevindu extends JFrame
 	{
 		String utskrift = bileierliste.toString();
 
-		if( utskrift == null )
+		if( utskrift == "" )
 			output.setText( "Ingen bileier registrert" );
 		else
 			output.setText( utskrift );
@@ -286,7 +286,7 @@ public class Listevindu extends JFrame
 
 	public void nyPerson()
 	{
-		if( navnFelt.getText() == null || adrFelt.getText() == null || pnrFelt.getText() == null )
+		if( navnFelt.getText().equals("") || adrFelt.getText().equals("") || pnrFelt.getText().equals("") )
 		{
 			JOptionPane.showMessageDialog( null, "Du må fylle ut navn, adresse og personnumer",
 																		 "Feil", JOptionPane.ERROR_MESSAGE );
@@ -302,13 +302,17 @@ public class Listevindu extends JFrame
 		bileierliste.settInnBileier( p );
 
 		output.setText( "Ny person registrert" );
+		navnFelt.setText( "" );
+		adrFelt.setText( "" );
+		pnrFelt.setText( "" );
+		fnrFelt.setText( "" );
 	}	// end of metode nyPerson()
 
 
 
 	public void nyFirma()
 	{
-		if( navnFelt.getText() == null || adrFelt.getText() == null || fnrFelt.getText() == null )
+		if( navnFelt.getText().equals("") || adrFelt.getText().equals("") || fnrFelt.getText().equals("") )
 		{
 			JOptionPane.showMessageDialog( null, "Du må fylle ut navn, adresse og foretaksnumer",
 																		 "Feil", JOptionPane.ERROR_MESSAGE );
@@ -333,8 +337,8 @@ public class Listevindu extends JFrame
   {
     public void actionPerformed( ActionEvent e )
     {
-      try
-      {
+      //try
+      //{
 				if ( e.getSource() == regBilPerson )
 				{
 					regBilPerson();
@@ -367,12 +371,12 @@ public class Listevindu extends JFrame
 				{
 					nyFirma();
 				}
-			}
-			catch( NumberFormatException nfe )
-			{
-				JOptionPane.showMessageDialog( null, "Årstall, personnummer og foretaksnummer skal være et heltall",
-																		 "Feil", JOptionPane.ERROR_MESSAGE );
-			}
+			//}
+			//catch( NumberFormatException nfe )
+			//{
+			//	JOptionPane.showMessageDialog( null, "Årstall, personnummer og foretaksnummer skal være et heltall",
+			//															 "Feil", JOptionPane.ERROR_MESSAGE );
+			//}
     }	// end of metode actionPerformed()
   }	// end of inner class Lytter
 }	// end of class Listevindu

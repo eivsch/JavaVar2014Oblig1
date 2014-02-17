@@ -20,7 +20,7 @@ Sigurd Hølleland	(s198597)
 	 {
 		 this.navn = navn;
 		 this.adresse = adresse;
-		 billiste = null;
+		 billiste = new Billiste();
 		 neste = null;
 	 }
 
@@ -53,7 +53,7 @@ Sigurd Hølleland	(s198597)
 	 public String toString()
 	 {
 		 String s = "Bileier: " + navn + "\nAdresse: " + adresse + "\nBiler:\n";
-		 s +=billiste.toString();
+		 //s +=billiste.toString();
 		 return s;
 	 }
  }
