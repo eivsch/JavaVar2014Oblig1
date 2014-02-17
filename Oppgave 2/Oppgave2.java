@@ -3,8 +3,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import javax.swing.*;
-import java.util.Date;
-import java.text.DateFormat;
 
 public class Oppgave2 extends JFrame
 {
@@ -61,17 +59,20 @@ public class Oppgave2 extends JFrame
 
 			String[] dir = navn.list();
 			output.append("\n\nKatalog inneholder " + dir.length + " elementer:\n");
-
+            int total = 0;
 			for (int i = 0; i < dir.length; i++)
 			{
 				if( dir[i].endsWith(".java") )
 				{
-					output.append(dir[i] + " " + tellLinjer(dir[i]) + "\n");
+					System.out.println( fil );
+					String temp = fil + "/" + dir[i];
+					output.append(dir[i] + " " + tellLinjer(temp) + "\n");
+					total += tellLinjer(temp);
 				}
 				else
 					output.append(dir[i] + "\n");
 			}
-
+            output.append("Total ant. kodelinjer: " + total);
 		}
 		else
 			output.append( "Navnet " + navn + " representerer en fil\n" );
@@ -81,20 +82,17 @@ public class Oppgave2 extends JFrame
 
   public int tellLinjer( String filnavn )
   {
-    //Åpner tekstfila som skal leses
     try (BufferedReader inntekst =
             new BufferedReader( new FileReader( filnavn )))
     {
-      //leser linjer inntil filslutt
       String innlinje = null;
 			int ant = 0;
       do
       {
-        innlinje = inntekst.readLine(); //leser en linje
+        innlinje = inntekst.readLine();
 
-        if ( innlinje != null ) //null betyr filslutt
+        if ( innlinje != null )
         {
-					output.append( innlinje + "\n" );
 					ant++;
 				}
       } while ( innlinje != null );
@@ -108,13 +106,10 @@ public class Oppgave2 extends JFrame
     }
     catch ( IOException ioe )
     {
-			return -1;
-		}
+      return -1;
+	}
 
   }
-
-
-
 
 
   private class Lytter implements ActionListener
@@ -132,5 +127,4 @@ public class Oppgave2 extends JFrame
 	      Oppgave2 f = new Oppgave2();
 	      f.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 	  }
-
 }
