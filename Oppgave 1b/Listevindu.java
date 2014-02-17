@@ -35,19 +35,19 @@ public class Listevindu extends JFrame
     c.setLayout( new FlowLayout() );
 
     c.add( new JLabel( "Navn: " ) );
-    navnFelt = new JTextField( 10 );
+    navnFelt = new JTextField( 12 );
     c.add( navnFelt );
 
     c.add( new JLabel( "Adresse: " ) );
-    adrFelt = new JTextField( 10 );
+    adrFelt = new JTextField( 15 );
     c.add( adrFelt );
 
     c.add( new JLabel( "Personnummer: " ) );
-    pnrFelt = new JTextField( 10 );
+    pnrFelt = new JTextField( 8 );
     c.add( pnrFelt );
 
 		c.add( new JLabel( "Foretaksnummer: " ) );
-		fnrFelt = new JTextField( 10 );
+		fnrFelt = new JTextField( 6 );
     c.add( fnrFelt );
 
     regPerson = new JButton( "Registrer person" );
@@ -58,10 +58,7 @@ public class Listevindu extends JFrame
     regFirma.addActionListener( lytter );
     c.add( regFirma );
 
-
-    c.add( new JLabel( "Registreringsnummer: " ) );
-    regNrFelt = new JTextField( 10 );
-    c.add( regNrFelt );
+		c.add( new JLabel( "******************************************************************************" ) );
 
     c.add( new JLabel( "Bilmerke: " ) );
     merkeFelt = new JTextField( 10 );
@@ -71,9 +68,14 @@ public class Listevindu extends JFrame
     typeFelt = new JTextField( 10 );
     c.add( typeFelt );
 
+    c.add( new JLabel( "Registreringsnummer: " ) );
+    regNrFelt = new JTextField( 6 );
+    c.add( regNrFelt );
+
     c.add( new JLabel( "Årstall: " ) );
-    arFelt = new JTextField( 10 );
+    arFelt = new JTextField( 5 );
     c.add( arFelt );
+
 
     regBilPerson = new JButton( "Registrer bil på person" );
     regBilPerson.addActionListener( lytter );
@@ -83,12 +85,14 @@ public class Listevindu extends JFrame
     regBilFirma.addActionListener( lytter );
     c.add( regBilFirma );
 
+		c.add( new JLabel( "******************************************************************************" ) );
+
 		c.add( new JLabel( "Finn bil (regnr): " ) );
 		finnFelt = new JTextField( 10 );
     finnFelt.addActionListener( lytter );
     c.add( finnFelt );
 
-    finnBil = new JButton( "Finn bil" );
+    finnBil = new JButton( "         Finn bil         " );
     finnBil.addActionListener( lytter );
     c.add( finnBil );
 
@@ -97,7 +101,7 @@ public class Listevindu extends JFrame
 		fjernFelt.addActionListener( lytter );
 		c.add( fjernFelt );
 
-		fjernBil = new JButton( "Fjern bil" );
+		fjernBil = new JButton( "            Fjern bil            " );
 		fjernBil.addActionListener( lytter );
     c.add( fjernBil );
 
@@ -106,7 +110,7 @@ public class Listevindu extends JFrame
 		fjernEierFelt.addActionListener( lytter );
 		c.add( fjernEierFelt );
 
-		fjernEier = new JButton( "Fjern eier" );
+		fjernEier = new JButton( "              Fjern eier              " );
 		fjernEier.addActionListener( lytter );
     c.add( fjernEier );
 
@@ -115,13 +119,13 @@ public class Listevindu extends JFrame
     c.add( skrivInfo );
 
 
-    output = new JTextArea( 15, 60 );
+    output = new JTextArea( 15, 35 );
     output.setEditable( false );
     c.add( new JScrollPane( output ) );
 
     bileierliste = new Bileierliste();
 
-    setSize( 850, 400 );
+    setSize( 433, 640 );
     setVisible( true );
   }	// end of konstruktør
 
