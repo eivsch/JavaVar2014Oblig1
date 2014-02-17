@@ -10,8 +10,9 @@ Gretar Ævarsson		(s198586)
 Sigurd Hølleland	(s198597)
 
 */
+import java.io.*;
 
-public class Bil
+public class Bil implements Serializable
 {
 	private int regAr;
 	private String regNr, merke, type;

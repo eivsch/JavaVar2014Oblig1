@@ -10,7 +10,9 @@ Gretar Ævarsson		(s198586)
 Sigurd Hølleland	(s198597)
 
 */
- public abstract class Bileier
+ import java.io.*;
+
+ public abstract class Bileier implements Serializable
  {
 	 private String navn, adresse;
 	 private Billiste billiste;

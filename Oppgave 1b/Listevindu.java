@@ -14,6 +14,7 @@ Sigurd Hølleland	(s198597)
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.*;
 
 public class Listevindu extends JFrame
 {
@@ -130,9 +131,40 @@ public class Listevindu extends JFrame
 
     setSize( 433, 640 );
     setVisible( true );
+    lesFil();
+    skrivListe();
   }	// end of konstruktør
 
-
+  private void lesFil()
+  {
+	  try(ObjectInputStream innfil = new ObjectInputStream(new FileInputStream("bileierliste.data"))){
+	      bileierliste = (Bileierliste) innfil.readObject();
+	  }
+	  catch(ClassNotFoundException cnfe){
+		  output.setText(cnfe.getMessage());
+		  output.append("\nOppretter tom bileierliste.\n");
+		  bileierliste = new Bileierliste();
+	  }
+	  catch(FileNotFoundException fne){
+		  output.setText("Finner ikke fil, Oppretter tom bileierliste.\n");
+		  bileierliste = new Bileierliste();
+	  }
+	  catch(IOException e){
+		  output.setText("Feil ved fillesing, oppretter tom bileierliste\n");
+		  bileierliste = new Bileierliste();
+      }
+  }
+    public void skrivTilFil(){
+        try(ObjectOutputStream utfil = new ObjectOutputStream(new FileOutputStream("bileierliste.data"))){
+            utfil.writeObject(bileierliste);
+        }
+        catch(NotSerializableException nse){
+            output.setText("Objektet er ikke serialisert");
+        }
+        catch(IOException e){
+            output.setText("Problem med utskrift");
+        }
+    }
 
   public void regBilEier()
   {

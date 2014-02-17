@@ -10,7 +10,9 @@ Gretar Ævarsson		(s198586)
 Sigurd Hølleland	(s198597)
 
 */
- public class Firma extends Bileier
+ import java.io.*;
+
+ public class Firma extends Bileier implements Serializable
  {
 	 private long foretaksNr;
 
@@ -21,7 +23,7 @@ Sigurd Hølleland	(s198597)
 	 }
 	 public String toString()
 	 {
-		 String s = "\nForetaksnummer: " + foretaksNr + super.toString();
+		 String s = "\nForetaksnummer: " + foretaksNr + "\n" + super.toString();
 		 return s;
 	 }
 	 public long getId()

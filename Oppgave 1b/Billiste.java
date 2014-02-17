@@ -10,9 +10,10 @@ Gretar Ævarsson		(s198586)
 Sigurd Hølleland	(s198597)
 
 */
+ import java.io.*;
 
-public class Billiste
-{
+ public class Billiste implements Serializable
+ {
 	private Bil første;
 
 

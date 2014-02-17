@@ -10,7 +10,9 @@ Gretar Ævarsson		(s198586)
 Sigurd Hølleland	(s198597)
 
 */
- public class Bileierliste
+ import java.io.*;
+
+ public class Bileierliste implements Serializable
  {
 	 private Bileier første;
 
