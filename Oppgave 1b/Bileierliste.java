@@ -100,6 +100,7 @@ Sigurd Hølleland	(s198597)
 		 while (løper != null)
 		 {
 			 s += løper.toString();
+			 løper = løper.neste;
 		 }
 		 return s;
 	 }
