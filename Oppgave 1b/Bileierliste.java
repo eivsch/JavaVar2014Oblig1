@@ -71,7 +71,7 @@ Sigurd Hølleland	(s198597)
 		 if(første.getId() == id)
 		 {
 		   første = første.neste;
-		   return "Eier " + id + "ble fjernet.";
+		   return "Eier " + id + " ble fjernet.";
 	     }
 	     Bileier løper = første;
 	     while (løper.neste != null)

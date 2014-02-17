@@ -52,8 +52,8 @@ Sigurd Hølleland	(s198597)
 	 }
 	 public String toString()
 	 {
-		 String s = "Bileier: " + navn + "\nAdresse: " + adresse + "\nBiler:\n";
-		 //s +=billiste.toString();
+		 String s = "Bileier: " + navn + "\nAdresse: " + adresse + "\nBiler:\n------\n";
+		 s +=billiste.toString() + "**********************************";
 		 return s;
 	 }
  }

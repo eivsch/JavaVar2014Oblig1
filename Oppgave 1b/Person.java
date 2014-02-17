@@ -21,7 +21,7 @@ Sigurd Hølleland	(s198597)
 	 }
 	 public String toString()
 	 {
-		 String s = super.toString() + "\nPersonnummerr: " + personNr;
+		 String s = "\nPersonnummer: " + personNr + "\n" + super.toString();
 		 return s;
 	 }
 	 public long getId()

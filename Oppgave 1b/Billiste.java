@@ -99,7 +99,7 @@ System.out.println("6");
 		String utskrift = "";
 
 		if ( tomListe() )
-			return "Tom liste";
+			return "Ingen biler registrert";
 		else
 		{
 			Bil løper = første;
@@ -108,7 +108,6 @@ System.out.println("6");
 			 utskrift += løper.toString();
 			 løper = løper.neste;
 			}
-			utskrift += "\n\n";
 
 			return utskrift;
 		}
