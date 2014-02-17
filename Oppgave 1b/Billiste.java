@@ -100,7 +100,7 @@ System.out.println("6");
 		String utskrift = "";
 
 		if ( tomListe() )
-			return "Ingen biler registrert";
+			return "\nIngen biler registrert";
 		else
 		{
 			Bil løper = første;

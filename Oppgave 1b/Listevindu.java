@@ -15,6 +15,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.util.regex.Matcher;
 
 public class Listevindu extends JFrame
 {
@@ -34,6 +35,8 @@ public class Listevindu extends JFrame
 
   private Bileierliste bileierliste;
   private Lytter lytter;
+
+  private String pnrPattern, fnrPattern;
 
   public Listevindu()
   {
@@ -152,8 +155,13 @@ public class Listevindu extends JFrame
 
     setSize( 433, 780 );
     setVisible( true );
+
     lesFil();
     skrivListe();
+
+    //Regulært utrykk - skiller personnummer og foretaksnummer
+    fnrPattern = "\\d{8}";
+    pnrPattern = "\\d{11}";
   }	// end of konstruktør
 
   private void lesFil()
@@ -193,17 +201,26 @@ public class Listevindu extends JFrame
 		    typeFelt.getText().equals( "" ) || arFelt.getText().equals( "" ) ||
 		    pnrFnrFelt.getText().equals( "" ) )
 		{
-			JOptionPane.showMessageDialog( null, "Du må fylle ut personnummer, registreringsnummer, bilmerke, biltype og årstall",
-																		 "Feil", JOptionPane.ERROR_MESSAGE );
+			feilmelding("Du må fylle ut personnummer, registreringsnummer, bilmerke, biltype og årstall");
 			return;
 		}
-
+		if(!pnrFnrFelt.getText().matches(pnrPattern) && !pnrFnrFelt.getText().matches(fnrPattern))
+        {
+			feilmelding("Feil antall siffer");
+			return;
+		}
 		Long pnrFnr = Long.parseLong( pnrFnrFelt.getText() );
 
     String r = regNrFelt.getText();
     String m = merkeFelt.getText();
     String t = typeFelt.getText();
     int ar = Integer.parseInt( arFelt.getText() );
+
+    if(bileierliste.finnBileier(r) != null)
+    {
+      output.setText("Bilen finnes fra før i registeret");
+      return;
+    }
 
 		Bil b = new Bil( r, m, t, ar );
 
@@ -218,9 +235,9 @@ public class Listevindu extends JFrame
 		eier.regBil( b );
 
 		if( eier instanceof Person )
-    	output.setText( "Bil med registreringsnummer " + r + " registrert på personnummer " + pnrFnr );
+    	output.setText( "Bil med reg.nr " + r + "\nregistrert på personnummer " + pnrFnr );
     else
-			output.setText( "Bil med registreringsnummer " + r + " registrert på foretaksnummer " + pnrFnr );
+			output.setText( "Bil med reg.nr " + r + "\nregistrert på foretaksnummer " + pnrFnr );
 
 		pnrFnrFelt.setText( "" );
 		regNrFelt.setText( "" );
@@ -234,8 +251,7 @@ public class Listevindu extends JFrame
   {
 		if( finnFelt.getText().equals("") )
 		{
-			JOptionPane.showMessageDialog( null, "Du må fylle skrive reg.nr.",
-																		 "Feil", JOptionPane.ERROR_MESSAGE );
+			feilmelding("Du må fylle skrive reg.nr.");
 			return;
 		}
 
@@ -260,8 +276,7 @@ public class Listevindu extends JFrame
   {
 		if( fjernFelt.getText().equals("") )
 		{
-			JOptionPane.showMessageDialog( null, "Du må fylle ut reg.nr.",
-																		 "Feil", JOptionPane.ERROR_MESSAGE );
+			feilmelding("Du må fylle ut reg.nr.");
 			return;
 		}
 
@@ -279,8 +294,7 @@ public class Listevindu extends JFrame
 	{
 		if( fjernEierFelt.getText().equals("") )
 		{
-			JOptionPane.showMessageDialog( null, "Du må fylle ut personnummer eller foretaksnummer",
-																		 "Feil", JOptionPane.ERROR_MESSAGE );
+			feilmelding("Du må fylle ut personnummer eller foretaksnummer");
 			return;
 		}
 
@@ -312,20 +326,23 @@ public class Listevindu extends JFrame
 	{
 		if( navnFelt.getText().equals("") || adrFelt.getText().equals("") || pnrFelt.getText().equals("") )
 		{
-			JOptionPane.showMessageDialog( null, "Du må fylle ut navn, adresse og personnummer",
-																		 "Feil", JOptionPane.ERROR_MESSAGE );
+			feilmelding("Du må fylle ut navn, adresse og personnummer");
 			return;
 		}
 
-    String navn = navnFelt.getText();
+		if(!pnrFelt.getText().matches(pnrPattern))
+		        {
+					feilmelding("Feil antall siffer");
+			return;
+		}
+
+        String navn = navnFelt.getText();
 		String adr = adrFelt.getText();
 		Long pnr = Long.parseLong( pnrFelt.getText() );
 
 		Person p = new Person( navn, adr, pnr );
 
-		bileierliste.settInnBileier( p );
-
-		output.setText( "Ny person registrert" );
+		output.setText( bileierliste.settInnBileier( p, pnr ) );
 		navnFelt.setText( "" );
 		adrFelt.setText( "" );
 		pnrFelt.setText( "" );
@@ -338,8 +355,12 @@ public class Listevindu extends JFrame
 	{
 		if( navnFelt.getText().equals("") || adrFelt.getText().equals("") || fnrFelt.getText().equals("") )
 		{
-			JOptionPane.showMessageDialog( null, "Du må fylle ut navn, adresse og foretaksnummer",
-																		 "Feil", JOptionPane.ERROR_MESSAGE );
+			feilmelding("Du må fylle ut navn, adresse og foretaksnummer");
+			return;
+		}
+		if(!fnrFelt.getText().matches(fnrPattern))
+        {
+			feilmelding("Feil antall siffer");
 			return;
 		}
 
@@ -349,9 +370,7 @@ public class Listevindu extends JFrame
 
 		Firma f = new Firma( navn, adr, fnr );
 
-		bileierliste.settInnBileier( f );
-
-		output.setText( "Nytt firma registrert" );
+		output.setText( bileierliste.settInnBileier( f, fnr ) );
 		navnFelt.setText( "" );
 		adrFelt.setText( "" );
 		pnrFelt.setText( "" );
@@ -363,8 +382,7 @@ public class Listevindu extends JFrame
 	{
 		if( skiftRnr.getText().equals("") || skiftFra.getText().equals("") || skiftTil.getText().equals("") )
 		{
-			JOptionPane.showMessageDialog( null, "Du må fylle ut registreringsnummer og personnummer/foretaksnummer",
-																		 "Feil", JOptionPane.ERROR_MESSAGE );
+			feilmelding("Du må fylle ut registreringsnummer og personnummer/foretaksnummer");
 			return;
 		}
 
@@ -379,7 +397,10 @@ public class Listevindu extends JFrame
 		skiftTil.setText( "" );
 	}
 
-
+  private void feilmelding (String s)
+  {
+	  JOptionPane.showMessageDialog( null, s, "Feil", JOptionPane.ERROR_MESSAGE );
+  }
 
   private class Lytter implements ActionListener
   {

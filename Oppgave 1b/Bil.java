@@ -38,10 +38,10 @@ public class Bil implements Serializable
 
 	public String toString()
 	{
-		return "Regnr: " + regNr +
+		return "\nRegnr: " + regNr +
 					 "\nMerke: " + merke +
 					 "\nType: " + type +
-					 "\n≈rstall: " + regAr + "\n\n";
+					 "\n≈rstall: " + regAr + "\n------";
 	}	// end of metode toString()
 
 

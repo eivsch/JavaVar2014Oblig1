@@ -21,10 +21,14 @@ Sigurd Hølleland	(s198597)
 		 første = null;
 	 }
 
-	 public void settInnBileier(Bileier ny)
+	 public String settInnBileier(Bileier ny, long id)
 	 {
+		 if(finnBileier(id) != null)
+		   return "Eier " + id + " er allerede registrert";
+
 		 ny.neste = første;
 		 første = ny;
+		 return "Eier " + id + " er registrert";
 	 }
 
 	 public Bileier finnBileier(long id)
