@@ -21,9 +21,17 @@ public class Listevindu extends JFrame
   private JTextField navnFelt, adrFelt, pnrFelt, fnrFelt;
   private JButton regPerson, regFirma;
 
-  private JTextField regNrFelt, merkeFelt, typeFelt, arFelt, pnrFnrFelt, finnFelt, fjernFelt, fjernEierFelt;
+  private JTextField regNrFelt, merkeFelt, typeFelt, arFelt, pnrFnrFelt;
+  private JButton regBilEier;
+
+  private JTextField finnFelt, fjernFelt, fjernEierFelt;
+  private JButton finnBil, fjernBil, fjernEier, skrivInfo;
+
+  private JTextField skiftFra, skiftTil, skiftRnr;
+  private JButton skiftEier;
+
   private JTextArea output;
-  private JButton regBilEier, finnBil, fjernBil, fjernEier, skrivInfo;
+
   private Bileierliste bileierliste;
   private Lytter lytter;
 
@@ -34,6 +42,8 @@ public class Listevindu extends JFrame
 
     Container c = getContentPane();
     c.setLayout( new FlowLayout() );
+
+    c.add( new JLabel( "**************************** Eierinformasjon ********************************" ) );
 
     c.add( new JLabel( "Navn: " ) );
     navnFelt = new JTextField( 12 );
@@ -59,7 +69,7 @@ public class Listevindu extends JFrame
     regFirma.addActionListener( lytter );
     c.add( regFirma );
 
-		c.add( new JLabel( "******************************************************************************" ) );
+		c.add( new JLabel( "***************************** Bilinformasjon *********************************" ) );
 
     c.add( new JLabel( "Bilmerke: " ) );
     merkeFelt = new JTextField( 10 );
@@ -84,25 +94,19 @@ public class Listevindu extends JFrame
     regBilEier = new JButton( "Registrer bil på person/firma" );
     regBilEier.addActionListener( lytter );
     c.add( regBilEier );
-/*
-    regBilFirma = new JButton( "Registrer bil på firma" );
-    regBilFirma.addActionListener( lytter );
-    c.add( regBilFirma );
-*/
-		c.add( new JLabel( "******************************************************************************" ) );
 
-		c.add( new JLabel( "Skriv registreringsnummer: " ) );
+		c.add( new JLabel( "******************************* Finn / Fjern ***********************************" ) );
+
+		c.add( new JLabel( "Skriv reg.nr: " ) );
 		finnFelt = new JTextField( 10 );
-    finnFelt.addActionListener( lytter );
     c.add( finnFelt );
 
-    finnBil = new JButton( "      Finn eier      " );
+    finnBil = new JButton( "         Finn eier         " );
     finnBil.addActionListener( lytter );
     c.add( finnBil );
 
  		c.add( new JLabel( "Fjern bil (regnr): " ) );
  		fjernFelt = new JTextField( 10 );
-		fjernFelt.addActionListener( lytter );
 		c.add( fjernFelt );
 
 		fjernBil = new JButton( "            Fjern bil            " );
@@ -111,7 +115,6 @@ public class Listevindu extends JFrame
 
  		c.add( new JLabel( "Fjern eier: " ) );
  		fjernEierFelt = new JTextField( 10 );
-		fjernEierFelt.addActionListener( lytter );
 		c.add( fjernEierFelt );
 
 		fjernEier = new JButton( "              Fjern eier              " );
@@ -122,6 +125,24 @@ public class Listevindu extends JFrame
     skrivInfo.addActionListener( lytter );
     c.add( skrivInfo );
 
+   	c.add( new JLabel( "******************************** Eierskifte ************************************" ) );
+
+		c.add( new JLabel( "Reg.nr: " ) );
+ 		skiftRnr = new JTextField( 30 );
+		c.add( skiftRnr );
+
+		c.add( new JLabel( "Skift fra: " ) );
+ 		skiftFra = new JTextField( 10 );
+		c.add( skiftFra );
+
+		c.add( new JLabel( "Skift til: " ) );
+ 		skiftTil = new JTextField( 10 );
+		c.add( skiftTil );
+
+    skiftEier = new JButton( "Skift eier" );
+    skiftEier.addActionListener( lytter );
+    c.add( skiftEier );
+
 
     output = new JTextArea( 15, 35 );
     output.setEditable( false );
@@ -129,7 +150,7 @@ public class Listevindu extends JFrame
 
     bileierliste = new Bileierliste();
 
-    setSize( 433, 640 );
+    setSize( 433, 780 );
     setVisible( true );
     lesFil();
     skrivListe();
@@ -177,7 +198,7 @@ public class Listevindu extends JFrame
 			return;
 		}
 
-		Long pnr = Long.parseLong( pnrFnrFelt.getText() );
+		Long pnrFnr = Long.parseLong( pnrFnrFelt.getText() );
 
     String r = regNrFelt.getText();
     String m = merkeFelt.getText();
@@ -186,15 +207,20 @@ public class Listevindu extends JFrame
 
 		Bil b = new Bil( r, m, t, ar );
 
-    if( bileierliste.finnBileier( pnr ) == null )
+    if( bileierliste.finnBileier( pnrFnr ) == null )
 		{
-			output.setText( "Finner ikke personnummer " + pnr );
+			output.setText( "Finner ikke personnummer " + pnrFnr );
 			return;
 		}
 
-		bileierliste.finnBileier( pnr ).regBil( b );
+		Bileier eier = bileierliste.finnBileier( pnrFnr );
 
-    output.setText( "Bil med reg.nr. " + r + " registrert på personnummer " + pnr );
+		eier.regBil( b );
+
+		if( eier instanceof Person )
+    	output.setText( "Bil med registreringsnummer " + r + " registrert på personnummer " + pnrFnr );
+    else
+			output.setText( "Bil med registreringsnummer " + r + " registrert på foretaksnummer " + pnrFnr );
 
 		pnrFnrFelt.setText( "" );
 		regNrFelt.setText( "" );
@@ -202,48 +228,6 @@ public class Listevindu extends JFrame
 		typeFelt.setText( "" );
 		arFelt.setText( "" );
   }	// end of metode regBilPerson()
-
-
-/*
-  public void regBilFirma()
-  {
-		if( regNrFelt.getText().equals( "" ) || merkeFelt.getText().equals( "" ) ||
-			  typeFelt.getText().equals( "" ) || arFelt.getText().equals( "" ) ||
-		    pnrFnrFelt.getText().equals( "" ) )
-		{
-			JOptionPane.showMessageDialog( null, "Du må fylle ut foretaksnummer, registreringsnummer, bilmerke, biltype og årstall",
-																		 "Feil", JOptionPane.ERROR_MESSAGE );
-			return;
-		}
-
-		Long fnr = Long.parseLong( pnrFnrFelt.getText() );
-
-    String r = regNrFelt.getText();
-    String m = merkeFelt.getText();
-    String t = typeFelt.getText();
-    int ar = Integer.parseInt( arFelt.getText() );
-
-		Bil b = new Bil( r, m, t, ar );
-
-    if( bileierliste.finnBileier( fnr ) == null )
-		{
-			output.setText( "Finner ikke foretaksnummer " + fnr );
-			return;
-		}
-
-		bileierliste.finnBileier( fnr ).regBil( b );
-
-    output.setText( "Bil med reg.nr. " + r + " registrert på foretaksnummer " + fnr );
-
-		pnrFnrFelt.setText( "" );
-		regNrFelt.setText( "" );
-		merkeFelt.setText( "" );
-		typeFelt.setText( "" );
-		arFelt.setText( "" );
-  }	// end of metode regBilFirma()
-
-*/
-
 
 
   public void finnBileierInfo()
@@ -328,7 +312,7 @@ public class Listevindu extends JFrame
 	{
 		if( navnFelt.getText().equals("") || adrFelt.getText().equals("") || pnrFelt.getText().equals("") )
 		{
-			JOptionPane.showMessageDialog( null, "Du må fylle ut navn, adresse og personnumer",
+			JOptionPane.showMessageDialog( null, "Du må fylle ut navn, adresse og personnummer",
 																		 "Feil", JOptionPane.ERROR_MESSAGE );
 			return;
 		}
@@ -354,7 +338,7 @@ public class Listevindu extends JFrame
 	{
 		if( navnFelt.getText().equals("") || adrFelt.getText().equals("") || fnrFelt.getText().equals("") )
 		{
-			JOptionPane.showMessageDialog( null, "Du må fylle ut navn, adresse og foretaksnumer",
+			JOptionPane.showMessageDialog( null, "Du må fylle ut navn, adresse og foretaksnummer",
 																		 "Feil", JOptionPane.ERROR_MESSAGE );
 			return;
 		}
@@ -375,23 +359,38 @@ public class Listevindu extends JFrame
 	}	// end of metode nyFirma()
 
 
+	public void skiftEier()
+	{
+		if( skiftRnr.getText().equals("") || skiftFra.getText().equals("") || skiftTil.getText().equals("") )
+		{
+			JOptionPane.showMessageDialog( null, "Du må fylle ut registreringsnummer og personnummer/foretaksnummer",
+																		 "Feil", JOptionPane.ERROR_MESSAGE );
+			return;
+		}
+
+		String rnr = skiftRnr.getText();
+		Long fraNr = Long.parseLong( skiftFra.getText() );
+		Long tilNr = Long.parseLong( skiftTil.getText() );
+
+		output.setText( bileierliste.eierskifte(rnr, fraNr, tilNr) );
+
+		skiftRnr.setText( "" );
+		skiftFra.setText( "" );
+		skiftTil.setText( "" );
+	}
+
+
 
   private class Lytter implements ActionListener
   {
     public void actionPerformed( ActionEvent e )
     {
-      //try
-      //{
+      try
+      {
 				if ( e.getSource() == regBilEier )
 				{
 					regBilEier();
 				}
-				/*
-				else if ( e.getSource() == regBilFirma )
-				{
-					regBilFirma();
-				}
-				*/
 				else if ( e.getSource() == finnBil || e.getSource() == finnFelt )
 				{
 					finnBileierInfo();
@@ -416,12 +415,16 @@ public class Listevindu extends JFrame
 				{
 					nyFirma();
 				}
-			//}
-			//catch( NumberFormatException nfe )
-			//{
-			//	JOptionPane.showMessageDialog( null, "Årstall, personnummer og foretaksnummer skal være et heltall",
-			//															 "Feil", JOptionPane.ERROR_MESSAGE );
-			//}
+				else if( e.getSource() == skiftEier )
+				{
+					skiftEier();
+				}
+			}
+			catch( NumberFormatException nfe )
+			{
+				JOptionPane.showMessageDialog( null, "Årstall, personnummer og foretaksnummer skal være et heltall",
+																		 "Feil", JOptionPane.ERROR_MESSAGE );
+			}
     }	// end of metode actionPerformed()
   }	// end of inner class Lytter
 }	// end of class Listevindu
