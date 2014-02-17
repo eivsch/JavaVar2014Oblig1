@@ -86,13 +86,20 @@ Sigurd Hølleland	(s198597)
 		 }
 		 return "Eier " + id + " ble ikke fjernet";
 	 }
-	 public void eierskifte(String rn, long idGammel, long idNy)
+	 public String eierskifte(String rn, long idGammel, long idNy)
 	 {
 		 Bileier gammel = finnBileier(idGammel);
 		 Bileier ny = finnBileier(idNy);
+		 if(gammel || ny == null)
+		   return "Finner ikke person.";
+
 		 Bil b = gammel.finnBil(rn);
+		   if(b == null)
+		     return "Finner ikke bil.";
+
 		 gammel.fjernBil(rn);
 		 ny.regBil(b);
+		 return "Eierskifte registrert";
 	 }
 
 	 public String toString()
