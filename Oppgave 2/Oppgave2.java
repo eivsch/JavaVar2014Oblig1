@@ -183,7 +183,7 @@ public class Oppgave2 extends JFrame
 
 			}while( innlinje != null );
 
-			return f.getName();
+			return f.getPath();
 		}
 		catch ( FileNotFoundException fnfe )
 		{
