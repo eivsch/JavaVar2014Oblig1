@@ -1,4 +1,17 @@
+/*
+
+Programutvikling vår 2014
+Obligatorsik Oppgave
+Oppgave 3
+
+Gruppemedlemer:
+Eivind Schulstad	(s198752)
+Gretar Ævarsson		(s198586)
+Sigurd Hølleland	(s198597)
+
+*/
 import javax.swing.JTextArea;
+import java.io.*;
 
 public class Bokregister
 {
@@ -45,6 +58,74 @@ public class Bokregister
    // setter inn boka sist i lista.
     løper.neste = ny;
   }
+
+  public void skrivBokTilFil( DataOutputStream output )
+  {
+    if ( første == null )
+      return;
+    else
+    {
+      Bok løper = første;
+      while ( løper != null )
+      {
+        løper.skrivObjektTilFil( output );
+        løper = løper.neste;
+      }
+    }
+	}
+
+	public void lesBokFraFil( DataInputStream input )
+	{
+      try
+			{
+				while ( true )
+				{
+					String type = input.readUTF();
+					System.out.println(type);
+
+					if( type.equals( "Skolebok" ) )
+					{
+						Skolebok temp = new Skolebok();
+						if( temp.lesObjektFraFil(input) )
+							settInn( temp );
+					}
+					else if( type.equals( "Fagbok" ) )
+					{
+						System.out.println("3");
+						Fagbok temp = new Fagbok();
+						if( temp.lesObjektFraFil(input) )
+						{
+							System.out.println("4");
+							settInn( temp );
+						}
+					}
+					else if( type.equals( "NorskRoman" ) )
+					{
+						NorskRoman temp = new NorskRoman();
+						if( temp.lesObjektFraFil(input) )
+							settInn( temp );
+					}
+					else if( type.equals( "UtenlandskRoman" ) )
+					{
+						UtenlandskRoman temp = new UtenlandskRoman();
+						if( temp.lesObjektFraFil(input) )
+							settInn( temp );
+					}
+				}
+			}
+			catch( FileNotFoundException fnfe )
+			{
+				System.out.println( "Bokregister.java - finner ikke fil " );
+			}
+			catch( EOFException eofe )
+			{
+				System.out.println( "slutt på fil" );
+			}
+			catch( IOException ioe )
+			{
+				System.out.println( "Bokregister.java - Filproblemer" );
+			}
+    }
 
 
   //utskrift av innhold i bokliste

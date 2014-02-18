@@ -1,7 +1,20 @@
-//Bokarkiv.java
+/*
+
+Programutvikling vår 2014
+Obligatorsik Oppgave
+Oppgave 3
+
+Gruppemedlemer:
+Eivind Schulstad	(s198752)
+Gretar Ævarsson		(s198586)
+Sigurd Hølleland	(s198597)
+
+*/
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.*;
 
 public class Bokarkiv extends JFrame
 {
@@ -72,6 +85,9 @@ public class Bokarkiv extends JFrame
     visReg.addActionListener( lytter );
     setSize( 550, 500 );
     setVisible( true );
+
+    lesFraFil( "arkiv.data" );
+    visRegister();
   }
 
   public void nyFagbok()
@@ -204,6 +220,39 @@ public class Bokarkiv extends JFrame
     målformfelt.setText( "" );
     språkfelt.setText( "" );
   }
+
+
+  public void skrivTilFil( String filnavn )
+  {
+		try( DataOutputStream ut = new DataOutputStream(
+										new FileOutputStream(filnavn)))
+		{
+			register.skrivBokTilFil( ut );
+		}
+    catch (IOException e)
+    {
+      System.out.println("Bokarkiv.java - filproblemer.");
+    }
+	}
+
+	private void lesFraFil( String filnavn )
+	{
+    try (DataInputStream inn = new DataInputStream(
+            new FileInputStream(filnavn)))
+    {
+      register.lesBokFraFil( inn );
+    }
+    catch (FileNotFoundException fnfe)
+    {
+      System.out.println("Finner ikke fil " + filnavn);
+      return;
+    }
+    catch (IOException e)
+    {
+      System.out.println("Problem med lesing fra fil.");
+    }
+	}
+
 
   private class Knappelytter implements ActionListener
   {
