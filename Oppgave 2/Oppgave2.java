@@ -1,4 +1,16 @@
-//Demonstrerer File-klassen
+/*
+
+Programutvikling vår 2014
+Obligatorsik Oppgave
+Oppgave 2
+
+Gruppemedlemer:
+Eivind Schulstad	(s198752)
+Gretar Ævarsson		(s198586)
+Sigurd Hølleland	(s198597)
+
+*/
+
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
@@ -10,22 +22,22 @@ public class Oppgave2 extends JFrame
   private JTextArea output;
   private JButton velg;
   private String filsti = null;
-  private Lytter kommandolytter;
+  private Lytter lytter;
 
   public Oppgave2()
   {
-    super("Tester File-klassen");
-    kommandolytter = new Lytter();
+    super("Oppgave 2 - Innlesning av fil/katalog");
+    lytter = new Lytter();
     Container c = getContentPane();
-    c.add( new JLabel( "Viser innhold av valgt tekstfil." ) );
-    velg = new JButton( "Velg fil" );
-    velg.addActionListener( kommandolytter );
+    c.add( new JLabel( "Viser informasjon om valgt fil eller katalog" ) );
+    velg = new JButton( "Velg fil/katalog" );
+    velg.addActionListener( lytter );
     c.add( velg );
-    output = new JTextArea(20, 35);
+    output = new JTextArea(25, 45);
     output.setEditable(false);
     setLayout( new FlowLayout() );
     c.add(new JScrollPane(output));
-    setSize(400, 400);
+    setSize(600, 500);
     setVisible(true);
   }
 
@@ -55,30 +67,40 @@ public class Oppgave2 extends JFrame
 
 		if( navn.isDirectory() )
 		{
-			output.append( navn + " representerer en katalog\n" );
+			output.append( "Navnet\n" + navn + "\nrepresenterer en katalog\n" );
 
 			String[] dir = navn.list();
-			output.append("\n\nKatalog inneholder " + dir.length + " elementer:\n");
+			output.append("\nKatalog inneholder " + dir.length + " elementer:\n");
+			output.append( "\nKodelinjer\tFilnavn\n----------------------------------\n" );
             int total = 0;
+            int antJavaFiler = 0;
 			for (int i = 0; i < dir.length; i++)
 			{
 				if( dir[i].endsWith(".java") )
 				{
-					System.out.println( fil );
 					String temp = fil + "/" + dir[i];
-					output.append(dir[i] + " " + tellLinjer(temp) + "\n");
+					output.append( tellLinjer(temp) + "\t" + dir[i] + "\n" );
 					total += tellLinjer(temp);
+					antJavaFiler++;
 				}
 				else
-					output.append(dir[i] + "\n");
+					output.append("\t" + dir[i] + "\n");
 			}
-            output.append("Total ant. kodelinjer: " + total);
+            output.append("\n----------------------------------\n" +
+                  total + "\tantall kodelinjer i " + antJavaFiler + " .java filer: " );
 		}
 		else
-			output.append( "Navnet " + navn + " representerer en fil\n" );
+		{
+			String nyFil = skrivTilFil( fil );
+			output.append( "Navnet\n" + navn + "\nrepresenterer en fil\n" );
+			output.append( "Ny fil " + nyFil + " er opprettet og den inneholder:\n\n" );
+			visFil( nyFil );
+
+		}
 
     output.setCaretPosition(0);
   }
+
 
   public int tellLinjer( String filnavn )
   {
@@ -101,15 +123,101 @@ public class Oppgave2 extends JFrame
     }
     catch ( FileNotFoundException e)
     {
-      output.setText("Filproblemer");
+      output.setText("Finner ikke fil " + filnavn);
       return -1;
     }
     catch ( IOException ioe )
     {
+      output.setText("Filproblemer");
       return -1;
-	}
+		}
 
   }
+
+
+
+	public String skrivTilFil( String filnavn )
+	{
+		File f = null;
+		boolean okfil = false;
+
+		do
+		{
+			JFileChooser filvelger = new JFileChooser();
+			filvelger.setCurrentDirectory( new File( "." ) );
+			int resultat = filvelger.showSaveDialog( null );
+
+			if ( resultat == JFileChooser.APPROVE_OPTION )
+			{
+				f = filvelger.getSelectedFile();
+				if ( !f.exists() )
+					okfil = true;
+				else
+					JOptionPane.showMessageDialog( null,
+							"Fila eksisterer allerede!\n" +
+							"Du må velge et annet navn.",
+							"Advarsel", JOptionPane.WARNING_MESSAGE );
+			}
+			else
+			{
+				JOptionPane.showMessageDialog( null,
+						"Du har ikke valgt utfil!\n" +
+						"Programmet vil bli avsluttet.",
+						"Advarsel", JOptionPane.WARNING_MESSAGE );
+				System.exit( 0 );
+			}
+		} while ( !okfil );
+		//åpner fil det skal leses fra og fil det skal skrives til
+
+		try (BufferedReader in = new BufferedReader( new FileReader( filnavn ));
+				 PrintWriter out = new PrintWriter( new FileWriter( f.getPath() )))
+		{
+			String innlinje = null;
+			int linjenummer = 1;
+
+			do
+			{
+				innlinje = in.readLine();
+				out.println( linjenummer++ + " " + innlinje + "\n" );
+
+			}while( innlinje != null );
+
+			return f.getName();
+		}
+		catch ( FileNotFoundException fnfe )
+		{
+			System.out.println( "Finner ikke fil det skal leses fra." );
+			return null;
+		}
+		catch ( IOException ioe )
+		{
+			System.out.println( "Problem med fillesing eller skriving." );
+			return null;
+		}
+	}
+
+
+	public void visFil( String filnavn )
+	{
+		try (BufferedReader in = new BufferedReader( new FileReader( filnavn )))
+		{
+
+			do
+			{
+				output.append( in.readLine() + "\n" );
+
+			}while( in.readLine() != null );
+
+		}
+		catch ( FileNotFoundException fnfe )
+		{
+			System.out.println( "Finner ikke fil det skal leses fra." );
+		}
+		catch ( IOException ioe )
+		{
+			System.out.println( "Problem med fillesing eller skriving." );
+		}
+	}
 
 
   private class Lytter implements ActionListener
