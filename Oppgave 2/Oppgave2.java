@@ -178,7 +178,8 @@ public class Oppgave2 extends JFrame
 			do
 			{
 				innlinje = in.readLine();
-				out.println( linjenummer++ + " " + innlinje + "\n" );
+				if(innlinje != null)
+				  out.println( linjenummer++ + " " + innlinje  );
 
 			}while( innlinje != null );
 
@@ -201,12 +202,14 @@ public class Oppgave2 extends JFrame
 	{
 		try (BufferedReader in = new BufferedReader( new FileReader( filnavn )))
 		{
-
+			String linje = "";
 			do
 			{
-				output.append( in.readLine() + "\n" );
+				linje = in.readLine();
+				if(linje != null)
+				  output.append( linje + "\n");
 
-			}while( in.readLine() != null );
+			}while( linje != null );
 
 		}
 		catch ( FileNotFoundException fnfe )
