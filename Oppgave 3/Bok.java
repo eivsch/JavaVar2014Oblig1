@@ -186,7 +186,6 @@ class Fagbok extends Bok
 		{
 			if( super.lesObjektFraFil( input ) )
 			{
-				System.out.println("5");
 				fagområde = input.readUTF();
 				return true;
 			}
@@ -207,7 +206,6 @@ class Fagbok extends Bok
 		try
 		{
 			output.writeUTF( "Fagbok" );
-			System.out.println("1");
 			super.skrivObjektTilFil( output );
 			output.writeUTF( fagområde );
 		}

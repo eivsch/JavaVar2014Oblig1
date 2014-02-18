@@ -81,7 +81,6 @@ public class Bokregister
 				while ( true )
 				{
 					String type = input.readUTF();
-					System.out.println(type);
 
 					if( type.equals( "Skolebok" ) )
 					{
@@ -91,11 +90,9 @@ public class Bokregister
 					}
 					else if( type.equals( "Fagbok" ) )
 					{
-						System.out.println("3");
 						Fagbok temp = new Fagbok();
 						if( temp.lesObjektFraFil(input) )
 						{
-							System.out.println("4");
 							settInn( temp );
 						}
 					}
