@@ -282,9 +282,13 @@ public class Listevindu extends JFrame
 
     String f = fjernFelt.getText();
 
+	if( bileierliste.finnBileier(f) == null)
+		output.setText( "Finner ikke bil " + f );
+	else
+	{
 		output.setText( bileierliste.finnBileier(f).fjernBil(f) );
-
 		fjernFelt.setText( "" );
+	}
   }	// end of metode fjernBil()
 
 

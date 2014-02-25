@@ -79,7 +79,6 @@ Sigurd Hølleland	(s198597)
 			}
 			løper = løper.neste;
 		}
-System.out.println("6");
 		return false;
 	}	// end of metode fjern()
 

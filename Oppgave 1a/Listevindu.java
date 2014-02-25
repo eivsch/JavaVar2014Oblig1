@@ -88,24 +88,34 @@ public class Listevindu extends JFrame
 
   public void settInnNy()
   {
-		if( regNrFelt.getText() == null || merkeFelt.getText() == null ||
-				typeFelt.getText() == null || arFelt.getText() == null )
+		if( regNrFelt.getText().equals("") || merkeFelt.getText().equals("")||
+				typeFelt.getText().equals("")|| arFelt.getText().equals(""))
 		{
 			JOptionPane.showMessageDialog( null, "Du må fylle ut alle feltene",
 																		 "Feil", JOptionPane.ERROR_MESSAGE );
 			return;
 		}
+	try
+	{
+    	String r = regNrFelt.getText();
+    	String m = merkeFelt.getText();
+    	String t = typeFelt.getText();
+    	//int a = 0;
 
-    String r = regNrFelt.getText();
-    String m = merkeFelt.getText();
-    String t = typeFelt.getText();
-    int a = Integer.parseInt( arFelt.getText() );
-
+		int a = Integer.parseInt( arFelt.getText() );
 		Bil b = new Bil( r, m, t, a );
-    billiste.settInnNy( b );
-    regNrFelt.setText( "" );
+		    billiste.settInnNy( b );
+		    regNrFelt.setText( "" );
 
-    output.setText( "Bil med reg.nr. " + r + " registrert" );
+    	output.setText( "Bil med reg.nr. " + r + " registrert" );
+	}
+		catch(NumberFormatException nfe)
+	{
+		JOptionPane.showMessageDialog( null, "Årstall må være et heltall", "Feil", JOptionPane.ERROR_MESSAGE );
+		return;
+	}
+
+
   }	// end of metode settInnNy()
 
 
