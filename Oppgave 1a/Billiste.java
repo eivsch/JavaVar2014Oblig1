@@ -73,17 +73,13 @@ public class Billiste
 
 		while( løper.neste != null )
 		{
-			System.out.println("3");
 			if( løper.neste.getRegNr().equals(r) )
 			{
-				System.out.println("4");
 				løper.neste = løper.neste.neste;
 				return true;
 			}
-			System.out.println("5");
 			løper = løper.neste;
 		}
-System.out.println("6");
 		return false;
 	}	// end of metode fjern()
 
